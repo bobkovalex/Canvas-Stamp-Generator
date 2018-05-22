@@ -1,2 +1,2 @@
-# canvas-stamp-generator
-Generate stamps using html canvas
+# Canvas Stamp Generator
+###### v0.0.3

@@ -1,38 +1,24 @@
-*{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-body {
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    /* font-size: 13px; */
-    background-color: #ffffff;
-    width: 100%;
-    height: 100%;
-}
-
-input{
-  border: 1px solid #dcdcdc;
-  padding: 5px;
-  color: #737373;
-}
-
-input[type="file"]{
-  border: 0;
-}
-
-input:focus, button:focus{
-  outline: none;
-}
-
-.child-container{
-}
-
 #canvas-container{
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #ffffff;
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+#canvas-container input{
+  border: 1px solid #dcdcdc;
+  padding: 5px;
+  color: #9c9c9c;
+  font-weight: 300;
+}
+
+#canvas-container input[type="file"]{
+  border: 0;
+}
+
+#canvas-container input:focus, button:focus{
+  outline: none;
 }
 
 #canvas-params-header{
@@ -69,7 +55,8 @@ input:focus, button:focus{
 .canvas-params h2{
   text-transform: uppercase;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 13px;
+  margin: 0;
   margin-left: -5px;
 }
 
@@ -78,6 +65,8 @@ input:focus, button:focus{
   letter-spacing: 1px;
   font-weight: 300;
   font-size: 12px;
+  margin: 0;
+  margin-top: 15px;
 }
 
 .canvas-params thead td{
@@ -100,10 +89,6 @@ input:focus, button:focus{
 
 .canvas-params .jscolor{
   width: 70px;
-}
-
-.canvas-params .title-margin{
-  margin-top: 15px;
 }
 
 .canvas-params .canvas-params-toggle{

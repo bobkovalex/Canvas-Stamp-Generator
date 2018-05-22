@@ -1,19 +1,13 @@
 <html>
 	<head>
 		<title>Canvas Stamp Generator</title>
-		<link type="text/css" rel="stylesheet" href="resources/css/canvas-stamp.css"/>
+		<link type="text/css" rel="stylesheet" href="resources/css/stampGenerator.css"/>
 		<script type="text/javascript" src="resources/js/jquery.min.js"></script>
-		<script type="text/javascript" src="resources/js/canvas-stamp.js"></script>
+		<script type="text/javascript" src="resources/js/stampGenerator.js"></script>
 	</head>
 	<body>
-		<div id="canvas-container">
-			<div id="canvas-params-container">
-				<div id="canvas-params-header">
-					<button id="canvas-shape-add">Add shape</button>
-				</div>
-			</div>
-			<div id="canvas-preview-container">
-
-			</div>
-		</div>
+		<div id="stampGen" style="width: 800px; height: 500px; margin: auto; box-shadow: 1px 1px 11px #dadada;"></div>
+		<script type="text/javascript">
+			$('#stampGen').stampGenerator();
+		</script>
 </html>
