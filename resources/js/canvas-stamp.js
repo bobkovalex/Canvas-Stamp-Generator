@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Alexandr Bobkov <lilalex85@gmail.com>
  * Licensed under MIT
  * @author Alexandr Bobkov
- * @version 0.0.1
+ * @version 0.0.2
  */
 
 // GLOBAL VARIABLES
@@ -23,11 +23,12 @@ $(document).ready(function(){
 	// Remove Shape
 	$('#canvas-params-container').on('click', 'button.canvas-shape-remove', function(){
 		$(this).parent().fadeOut(300, function(){
+			// get canvas id
+			var canvasId = $(this).attr('id').replace('canvas-params-', '');
 			// remove canvas
-			$('#canvas-stamp-' + canvasCount).remove();
+			$('#canvas-stamp-' + canvasId).remove();
 			// remove canvas params container
 			$(this).remove();
-			canvasCount--;
 		});
 	});
 
