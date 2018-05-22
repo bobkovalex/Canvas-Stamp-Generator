@@ -1,4 +1,4 @@
-#canvas-container{
+#csg-container{
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #ffffff;
   position: relative;
@@ -6,26 +6,26 @@
   height: 100%;
 }
 
-#canvas-container input{
+#csg-container input{
   border: 1px solid #dcdcdc;
   padding: 5px;
   color: #9c9c9c;
   font-weight: 300;
 }
 
-#canvas-container input[type="file"]{
+#csg-container input[type="file"]{
   border: 0;
 }
 
-#canvas-container input:focus, button:focus{
+#csg-container input:focus, button:focus{
   outline: none;
 }
 
-#canvas-params-header{
+#csg-params-header{
   text-align: center;
 }
 
-#canvas-params-header > button{
+#csg-params-header > button{
   background-color: #2e84b9;
   color: #ffffff;
   text-transform: uppercase;
@@ -35,7 +35,7 @@
   padding: 7px 10px;
 }
 
-#canvas-params-container{
+#csg-params-container{
   position: absolute;
   background-color: #e2e2e2;
   width: 300px;
@@ -44,7 +44,7 @@
   overflow: scroll;
 }
 
-.canvas-params{
+.csg-params{
   background-color: #f7f7f7;
   padding: 15px 20px;
   margin-bottom: 10px;
@@ -52,7 +52,7 @@
   border: 1px solid #ddd;
 }
 
-.canvas-params h2{
+.csg-params h2{
   text-transform: uppercase;
   font-weight: 400;
   font-size: 13px;
@@ -60,7 +60,7 @@
   margin-left: -5px;
 }
 
-.canvas-params h3{
+.csg-params h3{
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 300;
@@ -69,53 +69,53 @@
   margin-top: 15px;
 }
 
-.canvas-params thead td{
+.csg-params thead td{
   font-size: 12px;
   font-weight: 300;
   color: #adadad;
 }
 
-.canvas-params > div{
+.csg-params > div{
   display: none;
 }
 
-.canvas-params input[type="number"]{
+.csg-params input[type="number"]{
   width: 50px;
 }
 
-.canvas-params input[type="text"]{
+.csg-params input[type="text"]{
   width: 125px;
 }
 
-.canvas-params .jscolor{
+.csg-params .jscolor{
   width: 70px;
 }
 
-.canvas-params .canvas-params-toggle{
+.csg-params .csg-params-toggle{
   position: absolute;
   top: 15px;
   right: 50px;
 }
 
-.canvas-params .canvas-shape-remove{
+.csg-params .csg-shape-remove{
   position: absolute;
   top: 15px;
   right: 15px;
 }
 
-.canvas-params button{
+.csg-params button{
   background: none;
   border: 0;
 }
 
-#canvas-preview-container{
+#csg-preview-container{
   position: absolute;
   left: 320px;
   width: calc(100% - 320px);
   height: 100%;
 }
 
-#canvas-footer-container{
+#csg-footer-container{
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -123,7 +123,7 @@
   padding: 5px 20px;
 }
 
-.canvas-preview{
+.csg-preview{
   position: absolute;
   top: 50px;
 }

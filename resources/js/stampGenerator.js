@@ -3,29 +3,29 @@
  * Copyright (c) 2018 Alex Bobkov <lilalex85@gmail.com>
  * Licensed under MIT
  * @author Alexandr Bobkov
- * @version 0.0.3
+ * @version 0.1.0
  */
 
 $(document).ready(function(){
 
 	// Add Shape
-	$('#canvas-params-container').on('click', 'button#canvas-shape-add', function(){
+	$('#csg-params-container').on('click', 'button#csg-shape-add', function(){
 		$.fn.stampGenerator.addShape($(this));
 	});
 
 	// Remove Shape
-	$('#canvas-params-container').on('click', 'button.canvas-shape-remove', function(){
+	$('#csg-params-container').on('click', 'button.csg-shape-remove', function(){
 		$.fn.stampGenerator.removeShape($(this));
 	});
 
 	// Toggle Shape
-	$('#canvas-params-container').on('click', 'button.canvas-params-toggle', function(){
+	$('#csg-params-container').on('click', 'button.csg-params-toggle', function(){
 		$.fn.stampGenerator.toggleShape($(this));
 	});
 
 	// Preview/Draw Shapes
-	$('#canvas-params-container').bind('input', function(){
-		$.fn.stampGenerator.drawStamp();
+	$('#csg-params-container').bind('input', function(){
+		$.fn.stampGenerator.drawShape();
 	});
 });
 
@@ -50,15 +50,15 @@ $(document).ready(function(){
 		addShape : function(elem){
 			canvasCount++;
 			elem.parent().parent().append($.fn.stampGenerator.shapeHtml(canvasCount));
-			$.fn.stampGenerator.drawStamp();
+			$.fn.stampGenerator.drawShape();
 		},
 
 		removeShape : function(elem){
 			elem.parent().fadeOut(300, function(){
 				// get canvas id
-				var canvasId = $(this).attr('id').replace('canvas-params-', '');
+				var canvasId = $(this).attr('id').replace('csg-params-', '');
 				// remove canvas
-				$('#canvas-stamp-' + canvasId).remove();
+				$('#csg-stamp-' + canvasId).remove();
 				// remove canvas params container
 				$(this).remove();
 			});
@@ -70,24 +70,24 @@ $(document).ready(function(){
 			elem.text(text == 'Edit' ? 'Close' : 'Edit');
 		},
 
-		drawStamp : function(){
+		drawShape : function(){
 			// clear all canvas containers
-			$('.canvas-preview').each(function(){
+			$('.csg-preview').each(function(){
 				$(this).remove();
 			});
 			// draw canvas
 			var i = 1;
-			$('.canvas-params').each(function(){
+			$('.csg-params').each(function(){
 				// get shape params
-				var radius = $(this).find('#canvas-radius').val();
-				var text = $(this).find('#canvas-text').val();
-				var bgColor = $(this).find('#canvas-bg-color').val();
-				var strokeColor = $(this).find('#canvas-stroke-color').val();
-				var fgColor = $(this).find('#canvas-fg-color').val();
+				var radius = $(this).find('#csg-radius').val();
+				var text = $(this).find('#csg-text').val();
+				var bgColor = $(this).find('#csg-bg-color').val();
+				var strokeColor = $(this).find('#csg-stroke-color').val();
+				var fgColor = $(this).find('#csg-fg-color').val();
 				// append canvas container
-				$('#canvas-preview-container').prepend($.fn.stampGenerator.canvasHtml(i));
+				$('#csg-preview-container').prepend($.fn.stampGenerator.canvasHtml(i));
 				// get canvas container
-				var c = document.getElementById('canvas-stamp-' + i);
+				var c = document.getElementById('csg-stamp-' + i);
 				var ctx = c.getContext('2d');
 				// draw canvas
 				ctx.drawCircle(radius, xCoord, yCoord, bgColor, strokeColor);
@@ -103,27 +103,27 @@ $(document).ready(function(){
 		},
 
 		baseHtml : function(){
-			var html = '<div id="canvas-container">' +
-				'<div id="canvas-params-container">' +
-					'<div id="canvas-params-header">' +
-						'<button id="canvas-shape-add">Add shape</button>' +
+			var html = '<div id="csg-container">' +
+				'<div id="csg-params-container">' +
+					'<div id="csg-params-header">' +
+						'<button id="csg-shape-add">Add shape</button>' +
 					'</div>' +
 				'</div>' +
-				'<div id="canvas-preview-container"></div>' +
+				'<div id="csg-preview-container"></div>' +
 			'</div>';
 			return html;
 		},
 
 		canvasHtml : function(num){
-			var html = '<canvas id="canvas-stamp-' + num + '" class="canvas-preview" width="400" height="200"></canvas>';
+			var html = '<canvas id="csg-stamp-' + num + '" class="csg-preview" width="400" height="200"></canvas>';
 			return html;
 		},
 
 		shapeHtml : function(num){
-			var html = '<div class="canvas-params" id="canvas-params-' + num + '">'+
+			var html = '<div class="csg-params" id="csg-params-' + num + '">'+
 				'<h2>Shape #' + num + '</h2>' +
-				'<button class="canvas-params-toggle">Edit</button>' +
-				'<button class="canvas-shape-remove">X</button>' +
+				'<button class="csg-params-toggle">Edit</button>' +
+				'<button class="csg-shape-remove">X</button>' +
 				'<div>' +
 					'<h3>Circle Properties</h3>' +
 					'<table>' +
@@ -136,9 +136,9 @@ $(document).ready(function(){
 						'</thead>' +
 						'<tbody>' +
 							'<tr>' +
-								'<td><input type="number" id="canvas-radius" value="50"/></td>' +
-								'<td><input class="jscolor" id="canvas-bg-color" value="#FFFFFF"/></td>' +
-								'<td><input class="jscolor" id="canvas-stroke-color" value="#000000"/></td>' +
+								'<td><input type="number" id="csg-radius" value="50"/></td>' +
+								'<td><input class="jscolor" id="csg-bg-color" value="#FFFFFF"/></td>' +
+								'<td><input class="jscolor" id="csg-stroke-color" value="#000000"/></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
@@ -152,8 +152,8 @@ $(document).ready(function(){
 						'</thead>' +
 						'<tbody>' +
 							'<tr>' +
-								'<td><input type="text" id="canvas-text" value="this is my text"/></td>' +
-								'<td><input class="jscolor" id="canvas-fg-color" value="#000000"/></td>' +
+								'<td><input type="text" id="csg-text" value="this is my text"/></td>' +
+								'<td><input class="jscolor" id="csg-fg-color" value="#000000"/></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +

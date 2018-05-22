@@ -1,2 +1,2 @@
 # Canvas Stamp Generator
-###### v0.0.3
+###### v0.1.0
