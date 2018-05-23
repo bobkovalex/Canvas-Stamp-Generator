@@ -38,7 +38,7 @@
 #csg-params-container{
   position: absolute;
   background-color: #e2e2e2;
-  width: 300px;
+  width: 250px;
   height: calc(100% - 20px);
   padding: 10px;
   overflow: scroll;
@@ -91,6 +91,12 @@
   width: 70px;
 }
 
+.csg-params .csg-color-picker{
+  width: 55px;
+  height: 23px;
+  border: 1px solid #dcdcdc;
+}
+
 .csg-params .csg-params-toggle{
   position: absolute;
   top: 15px;
@@ -110,7 +116,7 @@
 
 #csg-preview-container{
   position: absolute;
-  left: 320px;
+  left: 250px;
   width: calc(100% - 320px);
   height: 100%;
 }
@@ -126,4 +132,8 @@
 .csg-preview{
   position: absolute;
   top: 50px;
+}
+
+.bcPicker-palette{
+  top: 25px;
 }

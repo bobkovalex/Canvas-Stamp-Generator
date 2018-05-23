@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Alex Bobkov <lilalex85@gmail.com>
  * Licensed under MIT
  * @author Alexandr Bobkov
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 $(document).ready(function(){
@@ -27,6 +27,12 @@ $(document).ready(function(){
 	$('#csg-params-container').bind('input', function(){
 		$.fn.stampGenerator.drawShape();
 	});
+
+	// Pick a color
+	$('body').on('click', '.bcPicker-color', function(){
+		$.fn.bcPicker.pickColor($(this));
+		$.fn.stampGenerator.drawShape();
+	});
 });
 
 
@@ -40,6 +46,13 @@ $(document).ready(function(){
 	var xCoord = 200;
 	var yCoord = 100;
 	var textPadding = 15;
+	var paramValues = {
+		radius : '#csg-radius',
+		text : '#csg-text',
+		bgColor : '#csg-bg-color-',
+		fgColor : '#csg-fg-color-',
+		strokeColor : '#csg-stroke-color-'
+	}
 
 	$.fn.stampGenerator = function () {
 		$(this).append($.fn.stampGenerator.baseHtml());
@@ -47,16 +60,23 @@ $(document).ready(function(){
 
 	$.extend(true, $.fn.stampGenerator, {
 
+		getCanvasId : function(elem){
+			return elem.attr('id').replace('csg-params-', '');
+		},
+
 		addShape : function(elem){
 			canvasCount++;
 			elem.parent().parent().append($.fn.stampGenerator.shapeHtml(canvasCount));
+			$(paramValues.bgColor + canvasCount).bcPicker({defaultColor: 'FFFFFF'});
+			$(paramValues.strokeColor + canvasCount).bcPicker();
+			$(paramValues.fgColor + canvasCount).bcPicker();
 			$.fn.stampGenerator.drawShape();
 		},
 
 		removeShape : function(elem){
 			elem.parent().fadeOut(300, function(){
 				// get canvas id
-				var canvasId = $(this).attr('id').replace('csg-params-', '');
+				var canvasId = $.fn.stampGenerator.getCanvasId($(this));
 				// remove canvas
 				$('#csg-stamp-' + canvasId).remove();
 				// remove canvas params container
@@ -78,16 +98,18 @@ $(document).ready(function(){
 			// draw canvas
 			var i = 1;
 			$('.csg-params').each(function(){
+				// get canvas id
+				var canvasId = $.fn.stampGenerator.getCanvasId($(this));
 				// get shape params
-				var radius = $(this).find('#csg-radius').val();
-				var text = $(this).find('#csg-text').val();
-				var bgColor = $(this).find('#csg-bg-color').val();
-				var strokeColor = $(this).find('#csg-stroke-color').val();
-				var fgColor = $(this).find('#csg-fg-color').val();
+				var radius = $(this).find(paramValues.radius).val();
+				var text = $(this).find(paramValues.text).val();
+				var bgColor = $(paramValues.bgColor + canvasId).children().css('background-color');
+				var strokeColor = $(paramValues.strokeColor + canvasId).children().css('background-color');
+				var fgColor = $(paramValues.fgColor + canvasId).children().css('background-color');
 				// append canvas container
-				$('#csg-preview-container').prepend($.fn.stampGenerator.canvasHtml(i));
+				$('#csg-preview-container').prepend($.fn.stampGenerator.canvasHtml(canvasId));
 				// get canvas container
-				var c = document.getElementById('csg-stamp-' + i);
+				var c = document.getElementById('csg-stamp-' + canvasId);
 				var ctx = c.getContext('2d');
 				// draw canvas
 				ctx.drawCircle(radius, xCoord, yCoord, bgColor, strokeColor);
@@ -95,10 +117,10 @@ $(document).ready(function(){
 					ctx.fillStyle = fgColor;
 					ctx.textAlign = 'center';
 					ctx.fillText(text, xCoord, yCoord);
+					i++;
 				}else{
 					ctx.drawTextCircle(text, parseInt(radius) - parseInt(textPadding), xCoord, yCoord, 0, fgColor);
 				}
-				i++;
 			});
 		},
 
@@ -137,8 +159,8 @@ $(document).ready(function(){
 						'<tbody>' +
 							'<tr>' +
 								'<td><input type="number" id="csg-radius" value="50"/></td>' +
-								'<td><input class="jscolor" id="csg-bg-color" value="#FFFFFF"/></td>' +
-								'<td><input class="jscolor" id="csg-stroke-color" value="#000000"/></td>' +
+								'<td><div id="csg-bg-color-' + num + '" class="csg-color-picker"></div></td>' +
+								'<td><div id="csg-stroke-color-' + num + '" class="csg-color-picker"></div></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
@@ -153,7 +175,7 @@ $(document).ready(function(){
 						'<tbody>' +
 							'<tr>' +
 								'<td><input type="text" id="csg-text" value="this is my text"/></td>' +
-								'<td><input class="jscolor" id="csg-fg-color" value="#000000"/></td>' +
+								'<td><div id="csg-fg-color-' + num + '" class="csg-color-picker"></div></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
