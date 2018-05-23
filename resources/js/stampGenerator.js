@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Alex Bobkov <lilalex85@gmail.com>
  * Licensed under MIT
  * @author Alexandr Bobkov
- * @version 0.2.0
+ * @version 0.3.0
  */
 
 $(document).ready(function(){
@@ -49,6 +49,9 @@ $(document).ready(function(){
 	var paramValues = {
 		radius : '#csg-radius',
 		text : '#csg-text',
+		textExpansion : '#csg-text-expansion',
+		textRepeat : '#csg-text-repeat',
+		textSize : '#csg-text-size',
 		bgColor : '#csg-bg-color-',
 		fgColor : '#csg-fg-color-',
 		strokeColor : '#csg-stroke-color-'
@@ -103,6 +106,9 @@ $(document).ready(function(){
 				// get shape params
 				var radius = $(this).find(paramValues.radius).val();
 				var text = $(this).find(paramValues.text).val();
+				var textExpansion = $(this).find(paramValues.textExpansion).val();
+				var textRepeat = $(this).find(paramValues.textRepeat).val();
+				var textSize = $(this).find(paramValues.textSize).val();
 				var bgColor = $(paramValues.bgColor + canvasId).children().css('background-color');
 				var strokeColor = $(paramValues.strokeColor + canvasId).children().css('background-color');
 				var fgColor = $(paramValues.fgColor + canvasId).children().css('background-color');
@@ -115,11 +121,12 @@ $(document).ready(function(){
 				ctx.drawCircle(radius, xCoord, yCoord, bgColor, strokeColor);
 				if(i == 1){
 					ctx.fillStyle = fgColor;
+					ctx.font = textSize + 'px Verdana';
 					ctx.textAlign = 'center';
-					ctx.fillText(text, xCoord, yCoord);
+					ctx.fillText(text, xCoord, yCoord + textSize/2);
 					i++;
 				}else{
-					ctx.drawTextCircle(text, parseInt(radius) - parseInt(textPadding), xCoord, yCoord, 0, fgColor);
+					ctx.drawTextCircle(text, parseInt(radius) - parseInt(textPadding), xCoord, yCoord, 0, fgColor, textExpansion, textRepeat, textSize);
 				}
 			});
 		},
@@ -152,15 +159,15 @@ $(document).ready(function(){
 						'<thead>' +
 							'<tr>' +
 								'<td>radius</td>' +
-								'<td>bg color</td>' +
-								'<td>stroke color</td>' +
+								'<td>bg</td>' +
+								'<td>stroke</td>' +
 							'</tr>' +
 						'</thead>' +
 						'<tbody>' +
 							'<tr>' +
 								'<td><input type="number" id="csg-radius" value="50"/></td>' +
-								'<td><div id="csg-bg-color-' + num + '" class="csg-color-picker"></div></td>' +
-								'<td><div id="csg-stroke-color-' + num + '" class="csg-color-picker"></div></td>' +
+								'<td><div class="csg-color-picker" id="csg-bg-color-' + num + '"></div></td>' +
+								'<td><div class="csg-color-picker" id="csg-stroke-color-' + num + '"></div></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
@@ -168,14 +175,30 @@ $(document).ready(function(){
 					'<table>' +
 						'<thead>' +
 							'<tr>' +
-								'<td>stamp text</td>' +
-								'<td>fg color</td>' +
+								'<td>text</td>' +
+								'<td>color</td>' +
 							'</tr>' +
 						'</thead>' +
 						'<tbody>' +
 							'<tr>' +
-								'<td><input type="text" id="csg-text" value="this is my text"/></td>' +
-								'<td><div id="csg-fg-color-' + num + '" class="csg-color-picker"></div></td>' +
+								'<td><input type="text" id="csg-text" value="this is my text + "/></td>' +
+								'<td><div class="csg-color-picker" id="csg-fg-color-' + num + '"></div></td>' +
+							'</tr>' +
+						'</tbody>' +
+					'</table>' +
+					'<table>' +
+						'<thead>' +
+							'<tr>' +
+								'<td>expansion</td>' +
+								'<td>repeat</td>' +
+								'<td>size</td>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody>' +
+							'<tr>' +
+								'<td><input type="number" id="csg-text-expansion" value="0.17" step="0.01"/></td>' +
+								'<td><input type="number" id="csg-text-repeat" value="2"/></td>' +
+								'<td><input type="number" id="csg-text-size" value="10"/></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
@@ -201,18 +224,21 @@ CanvasRenderingContext2D.prototype.drawCircle = function(radius, x, y, bgColor, 
 	this.closePath();
 }
 
-CanvasRenderingContext2D.prototype.drawTextCircle = function(text, radius, x, y, sAngle, fgColor){
-	 var numRadsPerLetter = 2 * Math.PI / text.length;
+CanvasRenderingContext2D.prototype.drawTextCircle = function(text, radius, x, y, sAngle, fgColor, expansion, repeat, size){
+	 var numRadsPerLetter = expansion;
 	 this.save();
 	 this.translate(x, y);
 	 this.rotate(Math.PI / 2);
 	 this.fillStyle = fgColor;
+	 this.font = size + 'px Verdana';
 
-	 for(var i = 0; i < text.length; i++){
+	 for(var i = 0; i < repeat; i++){
+		 for(var j = 0; j < text.length; j++){
 			this.save();
-			this.rotate(i * numRadsPerLetter);
-			this.fillText(text[i], 0, -radius);
+			this.rotate(j * numRadsPerLetter + numRadsPerLetter * text.length * i);
+			this.fillText(text[j], 0, -radius);
 			this.restore();
+		 }
 	 }
 	 this.restore();
 }

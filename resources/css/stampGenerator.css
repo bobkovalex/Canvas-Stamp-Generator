@@ -80,11 +80,11 @@
 }
 
 .csg-params input[type="number"]{
-  width: 50px;
+  width: 60px;
 }
 
 .csg-params input[type="text"]{
-  width: 125px;
+  width: 127px;
 }
 
 .csg-params .jscolor{
