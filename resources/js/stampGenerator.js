@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Alex Bobkov <lilalex85@gmail.com>
  * Licensed under MIT
  * @author Alexandr Bobkov
- * @version 0.3.0
+ * @version 0.4.0
  */
 
 $(document).ready(function(){
@@ -52,6 +52,7 @@ $(document).ready(function(){
 		textExpansion : '#csg-text-expansion',
 		textRepeat : '#csg-text-repeat',
 		textSize : '#csg-text-size',
+		textFont : '#csg-text-font',
 		bgColor : '#csg-bg-color-',
 		fgColor : '#csg-fg-color-',
 		strokeColor : '#csg-stroke-color-'
@@ -109,6 +110,7 @@ $(document).ready(function(){
 				var textExpansion = $(this).find(paramValues.textExpansion).val();
 				var textRepeat = $(this).find(paramValues.textRepeat).val();
 				var textSize = $(this).find(paramValues.textSize).val();
+				var textFont = $(this).find(paramValues.textFont).val();
 				var bgColor = $(paramValues.bgColor + canvasId).children().css('background-color');
 				var strokeColor = $(paramValues.strokeColor + canvasId).children().css('background-color');
 				var fgColor = $(paramValues.fgColor + canvasId).children().css('background-color');
@@ -121,12 +123,12 @@ $(document).ready(function(){
 				ctx.drawCircle(radius, xCoord, yCoord, bgColor, strokeColor);
 				if(i == 1){
 					ctx.fillStyle = fgColor;
-					ctx.font = textSize + 'px Verdana';
+					ctx.font = textSize + 'px ' + textFont;
 					ctx.textAlign = 'center';
 					ctx.fillText(text, xCoord, yCoord + textSize/2);
 					i++;
 				}else{
-					ctx.drawTextCircle(text, parseInt(radius) - parseInt(textPadding), xCoord, yCoord, 0, fgColor, textExpansion, textRepeat, textSize);
+					ctx.drawTextCircle(text, parseInt(radius) - parseInt(textPadding), xCoord, yCoord, 0, fgColor, textExpansion, textRepeat, textSize, textFont);
 				}
 			});
 		},
@@ -176,29 +178,41 @@ $(document).ready(function(){
 						'<thead>' +
 							'<tr>' +
 								'<td>text</td>' +
-								'<td>color</td>' +
 							'</tr>' +
 						'</thead>' +
 						'<tbody>' +
 							'<tr>' +
 								'<td><input type="text" id="csg-text" value="this is my text + "/></td>' +
-								'<td><div class="csg-color-picker" id="csg-fg-color-' + num + '"></div></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
 					'<table>' +
 						'<thead>' +
 							'<tr>' +
+								'<td>color</td>' +
 								'<td>expansion</td>' +
 								'<td>repeat</td>' +
-								'<td>size</td>' +
 							'</tr>' +
 						'</thead>' +
 						'<tbody>' +
 							'<tr>' +
-								'<td><input type="number" id="csg-text-expansion" value="0.17" step="0.01"/></td>' +
+								'<td><div class="csg-color-picker" id="csg-fg-color-' + num + '"></div></td>' +
+								'<td><input type="number" id="csg-text-expansion" value="0.173" step="0.001"/></td>' +
 								'<td><input type="number" id="csg-text-repeat" value="2"/></td>' +
+							'</tr>' +
+						'</tbody>' +
+					'</table>' +
+					'<table>' +
+						'<thead>' +
+							'<tr>' +
+								'<td>size</td>' +
+								'<td>font</td>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody>' +
+							'<tr>' +
 								'<td><input type="number" id="csg-text-size" value="10"/></td>' +
+								'<td><input type="text" id="csg-text-font" value="Verdana"/></td>' +
 							'</tr>' +
 						'</tbody>' +
 					'</table>' +
@@ -224,18 +238,17 @@ CanvasRenderingContext2D.prototype.drawCircle = function(radius, x, y, bgColor, 
 	this.closePath();
 }
 
-CanvasRenderingContext2D.prototype.drawTextCircle = function(text, radius, x, y, sAngle, fgColor, expansion, repeat, size){
-	 var numRadsPerLetter = expansion;
+CanvasRenderingContext2D.prototype.drawTextCircle = function(text, radius, x, y, sAngle, fgColor, textExpansion, textRepeat, textSize, textFont){
 	 this.save();
 	 this.translate(x, y);
 	 this.rotate(Math.PI / 2);
 	 this.fillStyle = fgColor;
-	 this.font = size + 'px Verdana';
+	 this.font = textSize + 'px ' + textFont;
 
-	 for(var i = 0; i < repeat; i++){
+	 for(var i = 0; i < textRepeat; i++){
 		 for(var j = 0; j < text.length; j++){
 			this.save();
-			this.rotate(j * numRadsPerLetter + numRadsPerLetter * text.length * i);
+			this.rotate(j * textExpansion + textExpansion * text.length * i);
 			this.fillText(text[j], 0, -radius);
 			this.restore();
 		 }

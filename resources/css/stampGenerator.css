@@ -84,7 +84,11 @@
 }
 
 .csg-params input[type="text"]{
-  width: 127px;
+  width: 185px;
+}
+
+.csg-params #csg-text-font{
+  width: 120px;
 }
 
 .csg-params .jscolor{
